@@ -42,6 +42,7 @@
 	
 	function startEdit(problem: any) {
 		editingId = problem.id;
+		showAddForm = false;
 		formData = {
 			title: problem.title,
 			description: problem.description || '',
@@ -49,7 +50,6 @@
 			tags: problem.tags?.join(', ') || '',
 			externalUrl: problem.externalUrl || ''
 		};
-		showAddForm = false;
 	}
 	
 	async function addProblem() {
@@ -174,52 +174,59 @@
 	<a href="/lists" class="text-blue-600 hover:text-blue-800 text-sm">← Back to lists</a>
 </div>
 
-<div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-	<div class="flex justify-between items-start mb-4">
-		<div>
-			<h1 class="text-3xl font-bold text-gray-900 mb-2">{data.list.name}</h1>
+<div class="bg-white border border-gray-200 rounded-xl p-6 sm:p-8 mb-10 shadow-sm">
+	<div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6 mb-6">
+		<div class="flex-1 min-w-0">
+			<h1 class="text-title mb-3 break-words">{data.list.name}</h1>
 			{#if data.list.description}
-				<p class="text-gray-600">{data.list.description}</p>
+				<p class="text-gray-600 text-lg leading-relaxed">{data.list.description}</p>
 			{/if}
 		</div>
 		{#if data.list.isPublic}
-			<span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded">Public</span>
+			<span class="px-4 py-2 text-sm font-semibold text-green-800 bg-green-100 rounded-lg self-start">Public</span>
 		{:else}
-			<span class="px-3 py-1 text-sm font-semibold text-gray-800 bg-gray-100 rounded">Private</span>
+			<span class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-lg self-start">Private</span>
 		{/if}
 	</div>
 	
-	<div class="flex items-center gap-6 text-sm text-gray-600">
-		<span>{data.list.problems?.length || 0} problems</span>
-		<span>Created {new Date(data.list.createdAt).toLocaleDateString()}</span>
+	<div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-gray-600 mb-8 pb-6 border-b border-gray-200">
+		<div class="flex items-center gap-2">
+			<span class="text-lg">📋</span>
+			<span class="font-medium">{data.list.problems?.length || 0} problems</span>
+		</div>
+		<div class="flex items-center gap-2">
+			<span class="text-lg">📅</span>
+			<span>Created {new Date(data.list.createdAt).toLocaleDateString()}</span>
+		</div>
 	</div>
 	
-	<div class="mt-6">
+	<div>
 		<a
 			href="/speedruns/start?listId={data.list.id}"
-			class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+			class="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 border border-transparent text-base font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all"
 		>
-			🏃 Start Speedrun
+			<span class="text-xl mr-2">🏃</span>
+			<span>Start Speedrun</span>
 		</a>
 	</div>
 </div>
 
-<div class="space-y-3">
-	<div class="flex items-center justify-between mb-4">
-		<h2 class="text-2xl font-bold text-gray-900">Problems</h2>
+<div class="space-y-4">
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+		<h2 class="text-heading font-bold text-gray-900">Problems</h2>
 		{#if isOwner && !editingId}
 			<button
 				onclick={() => { showAddForm = !showAddForm; if (!showAddForm) resetForm(); }}
-				class="px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+				class="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-xl shadow-sm hover:shadow-md transition-all"
 			>
 				{showAddForm ? 'Cancel' : '+ Add Problem'}
 			</button>
 		{/if}
 	</div>
 	
-	{#if showAddForm || editingId}
-		<div class="bg-white border-2 {editingId ? 'border-blue-200' : 'border-green-200'} rounded-lg p-6 mb-4">
-			<h3 class="text-lg font-semibold text-gray-900 mb-4">{editingId ? 'Edit Problem' : 'Add New Problem'}</h3>
+	{#if showAddForm && !editingId}
+		<div class="bg-white border-2 border-green-200 rounded-lg p-6 mb-4">
+			<h3 class="text-heading text-gray-900 mb-4">Add New Problem</h3>
 			<form onsubmit={(e) => { e.preventDefault(); saveProblem(); }} class="space-y-4">
 				<div>
 					<label for="title" class="block text-sm font-semibold text-gray-900 mb-1">
@@ -296,9 +303,9 @@
 					<button
 						type="submit"
 						disabled={submitting}
-						class="flex-1 px-4 py-2 text-sm font-semibold text-white {editingId ? 'bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300' : 'bg-green-600 hover:bg-green-700 disabled:bg-green-300'} disabled:cursor-not-allowed rounded-lg transition-colors"
+						class="flex-1 px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 disabled:bg-green-300 disabled:cursor-not-allowed rounded-lg transition-colors"
 					>
-						{submitting ? (editingId ? 'Updating...' : 'Adding...') : (editingId ? 'Update Problem' : 'Add Problem')}
+						{submitting ? 'Adding...' : 'Add Problem'}
 					</button>
 					<button
 						type="button"
@@ -317,7 +324,7 @@
 			{#if editingId === problem.id}
 				<!-- Editing mode: show inline in the list -->
 				<div class="bg-white border-2 border-blue-200 rounded-lg p-6">
-					<h3 class="text-lg font-semibold text-gray-900 mb-4">Edit Problem</h3>
+					<h3 class="text-heading text-gray-900 mb-4">Edit Problem</h3>
 					<form onsubmit={(e) => { e.preventDefault(); saveProblem(); }} class="space-y-4">
 						<div>
 							<label for="edit-title" class="block text-sm font-semibold text-gray-900 mb-1">
@@ -410,12 +417,12 @@
 				</div>
 			{:else}
 				<!-- Normal display mode -->
-				<div class="relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+				<div class="relative bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all">
 					{#if isOwner}
-						<div class="absolute bottom-4 right-4 flex gap-2 z-10">
+						<div class="absolute bottom-5 right-5 flex gap-2 z-10">
 							<button
 								onclick={() => startEdit(problem)}
-								class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+								class="p-2.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
 								title="Edit problem"
 							>
 								<span class="text-lg">✏️</span>
@@ -423,7 +430,7 @@
 							<button
 								onclick={() => deleteProblem(problem.id, problem.title)}
 								disabled={deletingId === problem.id}
-								class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+								class="p-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
 								title="Delete problem"
 							>
 								{#if deletingId === problem.id}
@@ -435,24 +442,26 @@
 						</div>
 					{/if}
 					
-					<div class="flex items-start justify-between">
-						<div class="flex-1 {isOwner ? 'pr-24' : 'pr-4'}">
-							<div class="flex items-center gap-3 mb-2">
-								<span class="text-gray-500 font-mono text-sm">#{problem.order + 1}</span>
-								<h3 class="text-lg font-semibold text-gray-900">{problem.title}</h3>
-								<span class="px-2 py-1 text-xs font-semibold rounded {getDifficultyColor(problem.difficulty)}">
+					<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+						<div class="flex-1 min-w-0 {isOwner ? 'pr-20' : ''}">
+							<div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+								<div class="flex items-center gap-3">
+									<span class="text-gray-500 font-mono text-sm font-semibold">#{problem.order + 1}</span>
+									<h3 class="text-xl font-semibold text-gray-900 break-words">{problem.title}</h3>
+								</div>
+								<span class="px-3 py-1 text-xs font-bold rounded-full {getDifficultyColor(problem.difficulty)} self-start uppercase tracking-wide">
 									{problem.difficulty}
 								</span>
 							</div>
 							
 							{#if problem.description}
-								<p class="text-gray-600 text-sm mb-2">{problem.description}</p>
+								<p class="text-gray-600 mb-4 leading-relaxed">{problem.description}</p>
 							{/if}
 							
 							{#if problem.tags && problem.tags.length > 0}
 								<div class="flex flex-wrap gap-2">
 									{#each problem.tags as tag}
-										<span class="px-2 py-1 text-xs text-blue-700 bg-blue-50 rounded">{tag}</span>
+										<span class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 rounded-lg border border-blue-100">{tag}</span>
 									{/each}
 								</div>
 							{/if}
@@ -463,7 +472,7 @@
 								href={problem.externalUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="flex-shrink-0 px-3 py-1 text-sm text-blue-600 hover:text-blue-800 border border-blue-200 rounded hover:bg-blue-50 whitespace-nowrap self-start"
+								class="w-full lg:w-auto lg:flex-shrink-0 px-5 py-2.5 text-sm font-semibold text-center text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-all"
 							>
 								View Problem →
 							</a>
