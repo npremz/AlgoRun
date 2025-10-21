@@ -9,7 +9,7 @@
 	let showMismatchError = $state(false);
 </script>
 
-<div class="min-h-screen flex items-center justify-center bg-gray-50">
+<div class="min-h-[calc(100vh-100px)] flex items-center justify-center bg-gray-50">
 	<div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
 		<div>
 			<h2 class="text-center text-3xl font-bold text-gray-900">Create an account</h2>

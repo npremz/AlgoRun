@@ -46,22 +46,23 @@
 		<div class="space-y-3">
 			{#each inProgressAttempts as attempt}
 				<div class="bg-white border-2 border-blue-300 rounded-lg p-4">
-					<div class="flex items-center justify-between">
-						<a href="/speedruns/{attempt.id}" class="flex-1">
+					<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+						<a href="/speedruns/{attempt.id}" class="flex-1 min-w-0">
 							<div>
-								<h3 class="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600">
+								<h3 class="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600 truncate">
 									{data.listsMap[attempt.listId] || 'Unknown List'}
 								</h3>
-								<div class="flex items-center gap-4 text-sm text-gray-600">
+								<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600">
 									<span>📝 {attempt.problemsCompleted} / {attempt.problemsTotal} completed</span>
-									<span>🕒 Started {formatDate(attempt.startedAt)}</span>
+									<span class="hidden sm:inline">🕒 Started {formatDate(attempt.startedAt)}</span>
+									<span class="sm:hidden">🕒 {new Date(attempt.startedAt).toLocaleDateString()}</span>
 								</div>
 							</div>
 						</a>
-						<div class="flex items-center gap-2">
+						<div class="flex items-center gap-2 sm:flex-shrink-0">
 							<a 
 								href="/speedruns/{attempt.id}"
-								class="inline-flex items-center px-3 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded hover:bg-blue-200"
+								class="flex-1 sm:flex-initial inline-flex items-center justify-center px-3 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded hover:bg-blue-200"
 							>
 								Continue →
 							</a>
@@ -108,20 +109,21 @@
 		<div class="space-y-3">
 			{#each completedAttempts as attempt}
 				<div class="bg-white border border-gray-200 rounded-lg p-4">
-					<div class="flex items-center justify-between">
-						<a href="/speedruns/{attempt.id}" class="flex-1">
+					<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+						<a href="/speedruns/{attempt.id}" class="flex-1 min-w-0">
 							<div>
-								<h3 class="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600">
+								<h3 class="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600 truncate">
 									{data.listsMap[attempt.listId] || 'Unknown List'}
 								</h3>
-								<div class="flex items-center gap-4 text-sm text-gray-600">
+								<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600">
 									<span>⏱️ {formatTime(attempt.totalTimeSeconds || 0)}</span>
 									<span>📝 {attempt.problemsTotal} problems</span>
-									<span>🏁 {formatDate(attempt.completedAt || attempt.startedAt)}</span>
+									<span class="hidden sm:inline">🏁 {formatDate(attempt.completedAt || attempt.startedAt)}</span>
+									<span class="sm:hidden">🏁 {new Date(attempt.completedAt || attempt.startedAt).toLocaleDateString()}</span>
 								</div>
 							</div>
 						</a>
-						<div class="flex items-center gap-2">
+						<div class="flex items-center gap-2 sm:flex-shrink-0">
 							<span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">
 								Completed
 							</span>

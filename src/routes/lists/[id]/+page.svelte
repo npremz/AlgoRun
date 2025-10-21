@@ -174,22 +174,22 @@
 	<a href="/lists" class="text-blue-600 hover:text-blue-800 text-sm">← Back to lists</a>
 </div>
 
-<div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-	<div class="flex justify-between items-start mb-4">
-		<div>
-			<h1 class="text-3xl font-bold text-gray-900 mb-2">{data.list.name}</h1>
+<div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-8">
+	<div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
+		<div class="flex-1 min-w-0">
+			<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 break-words">{data.list.name}</h1>
 			{#if data.list.description}
 				<p class="text-gray-600">{data.list.description}</p>
 			{/if}
 		</div>
 		{#if data.list.isPublic}
-			<span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded">Public</span>
+			<span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded self-start">Public</span>
 		{:else}
-			<span class="px-3 py-1 text-sm font-semibold text-gray-800 bg-gray-100 rounded">Private</span>
+			<span class="px-3 py-1 text-sm font-semibold text-gray-800 bg-gray-100 rounded self-start">Private</span>
 		{/if}
 	</div>
 	
-	<div class="flex items-center gap-6 text-sm text-gray-600">
+	<div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 text-sm text-gray-600 mb-6">
 		<span>{data.list.problems?.length || 0} problems</span>
 		<span>Created {new Date(data.list.createdAt).toLocaleDateString()}</span>
 	</div>
@@ -197,7 +197,7 @@
 	<div class="mt-6">
 		<a
 			href="/speedruns/start?listId={data.list.id}"
-			class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+			class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
 		>
 			🏃 Start Speedrun
 		</a>
@@ -205,12 +205,12 @@
 </div>
 
 <div class="space-y-3">
-	<div class="flex items-center justify-between mb-4">
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
 		<h2 class="text-2xl font-bold text-gray-900">Problems</h2>
 		{#if isOwner && !editingId}
 			<button
 				onclick={() => { showAddForm = !showAddForm; if (!showAddForm) resetForm(); }}
-				class="px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+				class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
 			>
 				{showAddForm ? 'Cancel' : '+ Add Problem'}
 			</button>
@@ -412,7 +412,7 @@
 				<!-- Normal display mode -->
 				<div class="relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
 					{#if isOwner}
-						<div class="absolute bottom-4 right-4 flex gap-2 z-10">
+						<div class="absolute top-4 right-4 flex gap-2 z-10">
 							<button
 								onclick={() => startEdit(problem)}
 								class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
@@ -435,12 +435,14 @@
 						</div>
 					{/if}
 					
-					<div class="flex items-start justify-between">
-						<div class="flex-1 {isOwner ? 'pr-24' : 'pr-4'}">
-							<div class="flex items-center gap-3 mb-2">
-								<span class="text-gray-500 font-mono text-sm">#{problem.order + 1}</span>
-								<h3 class="text-lg font-semibold text-gray-900">{problem.title}</h3>
-								<span class="px-2 py-1 text-xs font-semibold rounded {getDifficultyColor(problem.difficulty)}">
+					<div class="flex flex-col gap-3">
+						<div class="flex-1 {isOwner ? 'pr-20' : ''}">
+							<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+								<div class="flex items-center gap-3">
+									<span class="text-gray-500 font-mono text-sm">#{problem.order + 1}</span>
+									<h3 class="text-lg font-semibold text-gray-900 break-words">{problem.title}</h3>
+								</div>
+								<span class="px-2 py-1 text-xs font-semibold rounded {getDifficultyColor(problem.difficulty)} self-start">
 									{problem.difficulty}
 								</span>
 							</div>
@@ -463,7 +465,7 @@
 								href={problem.externalUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="flex-shrink-0 px-3 py-1 text-sm text-blue-600 hover:text-blue-800 border border-blue-200 rounded hover:bg-blue-50 whitespace-nowrap self-start"
+								class="w-full sm:w-auto sm:self-start px-3 py-2 text-sm text-center text-blue-600 hover:text-blue-800 border border-blue-200 rounded hover:bg-blue-50"
 							>
 								View Problem →
 							</a>
