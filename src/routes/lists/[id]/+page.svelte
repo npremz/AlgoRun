@@ -8,6 +8,8 @@
 	let submitting = $state(false);
 	let deletingId = $state<number | null>(null);
 	let editingId = $state<number | null>(null);
+	let showNotification = $state(false);
+	let notificationMessage = $state('');
 	
 	let formData = $state({
 		title: '',
@@ -27,6 +29,14 @@
 			default: return 'text-gray-700 bg-gray-100';
 		}
 	};
+	
+	function showNotif(message: string) {
+		notificationMessage = message;
+		showNotification = true;
+		setTimeout(() => {
+			showNotification = false;
+		}, 5000);
+	}
 	
 	function resetForm() {
 		formData = {
@@ -82,6 +92,7 @@
 			if (response.ok) {
 				resetForm();
 				await invalidateAll();
+				showNotif('Problem added! Any in-progress speedruns have been cancelled.');
 			} else {
 				const error = await response.json();
 				alert(`Failed to add problem: ${error.error || 'Unknown error'}`);
@@ -123,6 +134,7 @@
 			if (response.ok) {
 				resetForm();
 				await invalidateAll();
+				showNotif('Problem updated! Any in-progress speedruns have been cancelled.');
 			} else {
 				const error = await response.json();
 				alert(`Failed to update problem: ${error.error || 'Unknown error'}`);
@@ -157,6 +169,7 @@
 			
 			if (response.ok) {
 				await invalidateAll();
+				showNotif('Problem deleted! Any in-progress speedruns have been cancelled.');
 			} else {
 				const error = await response.json();
 				alert(`Failed to delete problem: ${error.error || 'Unknown error'}`);
@@ -173,6 +186,21 @@
 <div class="mb-6">
 	<a href="/lists" class="text-blue-600 hover:text-blue-800 text-sm">← Back to lists</a>
 </div>
+
+<!-- Notification Toast -->
+{#if showNotification}
+	<div class="fixed top-4 right-4 z-50 animate-slide-in">
+		<div class="bg-blue-600 text-white px-6 py-4 rounded-lg shadow-lg max-w-md">
+			<div class="flex items-center gap-3">
+				<span class="text-2xl">ℹ️</span>
+				<p class="text-sm font-medium">{notificationMessage}</p>
+				<button onclick={() => showNotification = false} class="ml-auto text-white hover:text-blue-200">
+					<span class="text-xl">×</span>
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <div class="bg-white border border-gray-200 rounded-xl p-6 sm:p-8 mb-10 shadow-sm">
 	<div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6 mb-6">

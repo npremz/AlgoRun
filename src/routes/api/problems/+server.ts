@@ -1,7 +1,19 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import { eq, max } from 'drizzle-orm';
+import { eq, max, and } from 'drizzle-orm';
+
+// Helper function to delete in-progress speedruns for a list
+async function deleteInProgressSpeedruns(listId: number) {
+	await db
+		.delete(table.speedrunAttempt)
+		.where(
+			and(
+				eq(table.speedrunAttempt.listId, listId),
+				eq(table.speedrunAttempt.isCompleted, false)
+			)
+		);
+}
 
 // POST /api/problems - Create a new problem in a list
 export async function POST(event: RequestEvent) {
@@ -31,6 +43,9 @@ export async function POST(event: RequestEvent) {
 	if (list.createdBy !== user.id) {
 		return json({ error: 'Forbidden' }, { status: 403 });
 	}
+
+	// Delete all in-progress speedruns for this list
+	await deleteInProgressSpeedruns(listId);
 
 	// Get max order for this list
 	const [maxOrder] = await db

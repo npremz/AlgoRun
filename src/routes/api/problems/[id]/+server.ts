@@ -1,7 +1,19 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
+
+// Helper function to delete in-progress speedruns for a list
+async function deleteInProgressSpeedruns(listId: number) {
+	await db
+		.delete(table.speedrunAttempt)
+		.where(
+			and(
+				eq(table.speedrunAttempt.listId, listId),
+				eq(table.speedrunAttempt.isCompleted, false)
+			)
+		);
+}
 
 // PATCH /api/problems/[id] - Update a problem
 export async function PATCH(event: RequestEvent) {
@@ -34,6 +46,9 @@ export async function PATCH(event: RequestEvent) {
 	if (!list || list.createdBy !== user.id) {
 		return json({ error: 'Forbidden' }, { status: 403 });
 	}
+
+	// Delete all in-progress speedruns for this list
+	await deleteInProgressSpeedruns(problem.listId);
 
 	const body = await event.request.json();
 	const { title, description, difficulty, tags, externalUrl, order } = body;
@@ -87,6 +102,9 @@ export async function DELETE(event: RequestEvent) {
 	if (!list || list.createdBy !== user.id) {
 		return json({ error: 'Forbidden' }, { status: 403 });
 	}
+
+	// Delete all in-progress speedruns for this list
+	await deleteInProgressSpeedruns(problem.listId);
 
 	await db.delete(table.problem).where(eq(table.problem.id, problemId));
 
