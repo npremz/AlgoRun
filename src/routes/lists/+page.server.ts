@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+export const load: PageServerLoad = async ({ fetch, locals }) => {
 	const response = await fetch('/api/lists');
 	const lists = await response.json();
 	
@@ -21,6 +21,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	
 	return {
 		lists,
-		bestTimes: Object.fromEntries(bestTimes)
+		bestTimes: Object.fromEntries(bestTimes),
+		user: locals.user
 	};
 };

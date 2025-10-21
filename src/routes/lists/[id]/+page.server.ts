@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ fetch, params }) => {
+export const load: PageServerLoad = async ({ fetch, params, locals }) => {
 	const response = await fetch(`/api/lists/${params.id}`);
 	
 	if (!response.ok) {
@@ -11,6 +11,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	const list = await response.json();
 	
 	return {
-		list
+		list,
+		user: locals.user
 	};
 };
