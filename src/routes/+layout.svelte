@@ -132,7 +132,7 @@
 {/if}
 
 <div class="min-h-screen flex flex-col">
-	<main class={data.user ? 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1' : 'flex-1'}>
+	<main class={data.user ? 'w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-10 flex-1' : 'flex-1'}>
 		{@render children?.()}
 	</main>
 

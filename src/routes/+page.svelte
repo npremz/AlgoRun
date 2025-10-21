@@ -5,8 +5,8 @@
 </script>
 
 <div class="text-center py-12 px-4">
-	<h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Welcome to AlgoRun</h1>
-	<p class="text-lg sm:text-xl text-gray-600 mb-8">
+	<h1 class="text-hero mb-4">Welcome to AlgoRun</h1>
+	<p class="text-subheading text-gray-600 mb-8">
 		Practice algorithmic problems with speedrun challenges
 	</p>
 	
@@ -25,17 +25,17 @@
 		</a>
 	</div>
 	
-	<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
+	<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
 		<div class="p-6 bg-white rounded-lg shadow">
-			<h3 class="text-lg font-semibold text-gray-900 mb-2">Create Lists</h3>
+			<h3 class="text-heading text-gray-900 mb-2">Create Lists</h3>
 			<p class="text-gray-600">Build custom problem lists for targeted practice</p>
 		</div>
 		<div class="p-6 bg-white rounded-lg shadow">
-			<h3 class="text-lg font-semibold text-gray-900 mb-2">Speedrun Mode</h3>
+			<h3 class="text-heading text-gray-900 mb-2">Speedrun Mode</h3>
 			<p class="text-gray-600">Race against the clock to solve problems</p>
 		</div>
 		<div class="p-6 bg-white rounded-lg shadow">
-			<h3 class="text-lg font-semibold text-gray-900 mb-2">Track Progress</h3>
+			<h3 class="text-heading text-gray-900 mb-2">Track Progress</h3>
 			<p class="text-gray-600">Monitor your improvement over time</p>
 		</div>
 	</div>

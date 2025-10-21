@@ -37,7 +37,7 @@
 	let inProgressAttempts = $derived(sortedAttempts.filter(a => !a.isCompleted));
 </script>
 
-<h1 class="text-3xl font-bold mb-6">My Speedruns</h1>
+<h1 class="text-title mb-6">My Speedruns</h1>
 <p class="text-gray-600 mb-8">View your speedrun attempts and track your progress.</p>
 
 {#if inProgressAttempts.length > 0}

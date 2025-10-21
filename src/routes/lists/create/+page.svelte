@@ -14,7 +14,7 @@
 		</a>
 	</div>
 	
-	<h1 class="text-3xl font-bold mb-2">Create New List</h1>
+	<h1 class="text-title mb-2">Create New List</h1>
 	<p class="text-gray-600 mb-8">Create a private problem list for your speedrun challenges.</p>
 	
 	<div class="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
@@ -104,7 +104,7 @@
 			</li>
 			<li class="flex items-start gap-2">
 				<span class="font-semibold text-blue-600">2.</span>
-				<span>Add problems to your list (feature coming soon)</span>
+				<span>Add problems to your list</span>
 			</li>
 			<li class="flex items-start gap-2">
 				<span class="font-semibold text-blue-600">3.</span>
