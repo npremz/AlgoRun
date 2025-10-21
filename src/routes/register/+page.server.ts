@@ -12,13 +12,18 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const username = formData.get('username');
 		const password = formData.get('password');
+		const confirmPassword = formData.get('confirmPassword');
 
-		if (!username || !password) {
-			return fail(400, { message: 'Username and password are required' });
+		if (!username || !password || !confirmPassword) {
+			return fail(400, { message: 'All fields are required' });
 		}
 
-		if (typeof username !== 'string' || typeof password !== 'string') {
+		if (typeof username !== 'string' || typeof password !== 'string' || typeof confirmPassword !== 'string') {
 			return fail(400, { message: 'Invalid form data' });
+		}
+		
+		if (password !== confirmPassword) {
+			return fail(400, { message: 'Passwords do not match' });
 		}
 
 		if (username.length < 3 || username.length > 31) {
